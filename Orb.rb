@@ -6,7 +6,7 @@ require 'serialport'
 
 class Orb
 
-  def initialize(port_str = "/dev/tty.usbserial-A7004Wav")
+  def initialize(port_str = "/dev/ttyUSB0")
     puts "init"
     @port_str = port_str
     baud_rate = 19200 # the rate that BlinkMCommunicator uses

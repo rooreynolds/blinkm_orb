@@ -18,26 +18,37 @@ get '/fade' do
   handle_fade(params[:colour], orb)
 end
 
-def handle_fade(name, orb)
-  color = (Color::CSS[name])
-  if (color)
-    color = color.to_rgb
-  else
-    color = Color::RGB.from_html(name)
-  end
-  orb.fade_to(color.red, color.green, color.blue)
-  "<html><body style='background-color:#{"#%02x%02x%02x" % [color.red, color.green, color.blue]}'><form name='input' action='/fade' method='get'><input type='text' name='colour'></form><p/>#{name} (red: #{color.red} green: #{color.green} blue: #{color.blue})</body></html>"
+get '/jump/:name' do
+  handle_jump(name, orb)
 end
 
-get '/jump/:name' do
-  name = params[:name]
-  color = (Color::CSS[name])
-  if (color)
-    color = color.to_rgb
+get '/jump' do
+  handle_jump(params[:colour], orb)
+end
+
+def get_colour(name)
+  colour = (Color::CSS[name])
+  if (colour)
+    colour = colour.to_rgb
   else
-    color = Color::RGB.from_html(name)
+    colour = Color::RGB.from_html(name)
   end
-  orb.jump_to(color.red, color.green, color.blue)
-  "#{name} (red: #{color.red} green: #{color.green} blue: #{color.blue})"
+  return colour
+end
+
+def show_form(method, colour, name) 
+  return "<html><body style='background-color:#{"#%02x%02x%02x" % [colour.red, colour.green, colour.blue]}'><form name='input' action='#{method}' method='get'><input type='text' name='colour'></form><p/>#{name} (red: #{colour.red} green: #{colour.green} blue: #{colour.blue})</body></html>"
+end
+
+def handle_fade(name, orb)
+  colour = get_colour(name)
+  orb.fade_to(colour.red, colour.green, colour.blue)
+  return show_form('/fade', colour,name)
+end
+
+def handle_jump(name, orb)
+  colour = get_colour(name)
+  orb.jump_to(colour.red, colour.green, colour.blue)
+  return show_form('/jump', colour, name)
 end
 

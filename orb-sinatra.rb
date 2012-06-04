@@ -19,7 +19,7 @@ get '/fade' do
 end
 
 get '/jump/:name' do
-  handle_jump(name, orb)
+  handle_jump(params[:name], orb)
 end
 
 get '/jump' do

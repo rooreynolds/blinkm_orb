@@ -12,14 +12,24 @@ end
 
 get '/fade/:name' do
   name = params[:name]
-  color = Color::RGB.from_html(name)
+  color = (Color::CSS[name])
+  if (color)
+    color = color.to_rgb
+  else
+    color = Color::RGB.from_html(name)
+  end
   orb.fade_to(color.red, color.green, color.blue)
   "#{name} (red: #{color.red} green: #{color.green} blue: #{color.blue})"
 end
 
 get '/jump/:name' do
   name = params[:name]
-  color = Color::RGB.from_html(name)
+  color = (Color::CSS[name])
+  if (color)
+    color = color.to_rgb
+  else
+    color = Color::RGB.from_html(name)
+  end
   orb.jump_to(color.red, color.green, color.blue)
   "#{name} (red: #{color.red} green: #{color.green} blue: #{color.blue})"
 end

@@ -10,19 +10,11 @@ get '/' do
   "Hello. Try /fade/red or /fade/ff0000"
 end
 
-get '/fade/:colour' do
+get '/fade/?:colour?' do
   handle_fade(params[:colour], orb)
 end
 
-get '/fade' do
-  handle_fade(params[:colour], orb)
-end
-
-get '/jump/:name' do
-  handle_jump(params[:name], orb)
-end
-
-get '/jump' do
+get '/jump/?:colour?' do
   handle_jump(params[:colour], orb)
 end
 
